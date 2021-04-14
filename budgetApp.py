@@ -8,36 +8,35 @@ class Budget:
 
 
     def deposit_funds(self, category: str):
-        amount = int(input(f"How much do you want to assing for {category} \n >>>"))
-        if category == 'food'.lower():
-            self.db['FoodBudget'] = {'amount': amount, 'balance': 0}
+        amount = int(input(f"How much do you want to assing for {category} \n >>> {self.naira}"))
+        if category == 'food'.lower() or category == 'clothing'.lower() or category == 'entertainment'.lower():
+            self.db[category] = {'amount': amount, 'balance': 0}
             try:
                 with open('zuriPurse.txt') as file:
                     data = json.load(file)
-            except error:
+                    if not data[category]:
+                        pass
+            except (error, json.decoder.JSONDecodeError, FileNotFoundError, KeyError):
                 with open('zuriPurse.txt', 'w') as dbdata:
                     data = {}
-                    data['FoodBudget'] = {'amount': amount, 'balance': 0}
+                    data[category] = {'amount': amount, 'balance': 0}
                     json.dump(data, dbdata)
 
             with open('zuriPurse.txt', 'w') as dbFile:
-                if data['FoodBudget']['balance'] == 0:
-                    data['FoodBudget']['balance'] += amount
-                    data['FoodBudget']['amount'] = self.db['FoodBudget']['amount']
+                if data[category]['balance'] == 0:
+                    data[category]['balance'] += amount
+                    data[category]['amount'] = self.db[category]['amount']
                     print(self.db)
                     json.dump(data, dbFile)
                 else:
-                    data['FoodBudget']['balance'] += self.db['FoodBudget']['amount']
-                    data['FoodBudget']['amount'] = self.db['FoodBudget']['amount']
-                    print(self.db)
+                    data[category]['balance'] += self.db[category]['amount']
+                    data[category]['amount'] = self.db[category]['amount']
                     json.dump(data, dbFile)
-
                 print(
                     f"{self.naira}{amount} added to {category} budget. \n",\
-                        end=f'Your {category} budget balance is {self.naira}' + str(data['FoodBudget']['balance'])
+                        end=f'Your {category} budget balance is {self.naira}' + str(data[category]['balance'])
                     )
-
-                    
+       
 
     def withdraw_funds(self):
         pass
@@ -49,4 +48,4 @@ class Budget:
         pass
 
 food = Budget()
-food.deposit_funds("food")
+food.deposit_funds("clothing")
