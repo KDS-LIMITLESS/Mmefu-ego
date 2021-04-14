@@ -1,1 +1,1 @@
-{"FoodBudget": {"amount": 4000, "balance": 7000}}
+{"FoodBudget": {"amount": 5000, "balance": 9000}}
