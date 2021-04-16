@@ -1,0 +1,6 @@
+{
+  "food": {
+    "last_deposit_amount": 5000,
+    "balance": 1200
+  }
+}

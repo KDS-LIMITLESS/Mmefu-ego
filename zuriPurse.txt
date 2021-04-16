@@ -1,1 +1,0 @@
-{"clothing": {"amount": 5000, "balance": 7000}}
