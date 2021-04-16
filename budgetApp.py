@@ -7,8 +7,13 @@ class Budget:
     db = {}
 
 
-    def deposit_funds(self, category: str):
-        last_deposit_amount = int(input(f"\n How much do you want to assing for {category} \n >>> {self.naira}"))
+    def __init__(self) -> None:
+        self.deposit_funds(category="clothing")
+        self.deposit_funds(category="entertainment")
+        self.deposit_funds(category="food")
+
+    def deposit_funds(self, category=""):
+        last_deposit_amount = int(input(f"\n \n How much do you want to assign for {category} \n >>> {self.naira}"))
         if category == 'food'.lower():
             self.db['food'] = {'last_deposit_amount': last_deposit_amount, 'balance': 0}
             try: 
@@ -294,7 +299,7 @@ class Budget:
 # Budget app for ***clothing***, ***food***, ***entertainment***
 
 app = Budget()
-app.deposit_funds('clothing')
-app.withdraw_funds(category="food", amount=200)
-app.compute_balance(category='entertainment')
-app.transfer_balance(category="clothing", to="food")
+# app.deposit_funds('clothing')
+# app.withdraw_funds(category="food", amount=200)
+# app.compute_balance(category='entertainment')
+# app.transfer_balance(category="clothing", to="food")

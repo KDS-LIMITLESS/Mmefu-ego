@@ -1,6 +1,6 @@
 {
   "entertainment": {
-    "last_deposit_amount": 3000,
-    "balance": 400
+    "last_deposit_amount": 200,
+    "balance": 3800
   }
 }

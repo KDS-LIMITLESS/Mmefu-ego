@@ -1,6 +1,6 @@
 {
   "clothing": {
-    "last_deposit_amount": 3000,
-    "balance": 3200
+    "last_deposit_amount": 200,
+    "balance": 9400
   }
 }
