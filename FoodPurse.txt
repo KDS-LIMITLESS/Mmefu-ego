@@ -1,6 +1,6 @@
 {
   "food": {
-    "last_deposit_amount": 800,
-    "balance": 12900
+    "last_deposit_amount": 600,
+    "balance": 14500
   }
 }
