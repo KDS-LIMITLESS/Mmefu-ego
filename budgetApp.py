@@ -6,11 +6,6 @@ class Budget:
     naira = u'\u20A6'
     db = {}
 
-    def __init__(self) -> None:
-        self.deposit_funds(category="clothing")
-        self.deposit_funds(category="entertainment")
-        self.deposit_funds(category="food")
-
     def read_file(self, category):
         if category == 'food':
             with open('FoodPurse.txt') as file:
@@ -91,21 +86,13 @@ class Budget:
             print("invalid Command!")
             self.withdraw_funds(category=category, amount=amount)
 
-    def compute_balance(self, category=""):
-        if category == "food":
-            with open("FoodPurse.txt") as file:
-                balance = json.load(file)
-                print(f"The remaining balance in your {category} purse is {self.naira}" + str(balance[category]['balance']))
-        elif category == "clothing":
-            with open("clothingPurse.txt") as file:
-                balance = json.load(file)
-                print(f"The remaining balance in your {category} purse is {self.naira}" + str(balance[category]['balance']))
-        elif category == "entertainment":
-            with open("entertainmentPurse.txt") as file:
-                balance = json.load(file)
-                print(f"The remaining balance in your {category} purse is {self.naira}" + str(balance[category]['balance']))
-        else:
-            print(f"Budget for {category} not found in database!")
+    def compute_balance(self):
+        category = input('Compute balance for ::: ').lower()
+        try:
+            self.read_file(category)
+            print(f"The remaining balance in your {category} purse is {self.naira}" + str(self.Purse[category]['balance']))
+        except (AttributeError):
+            print(f'Budget balance for {category} not found')
 
     def transfer_balance(self):
         category = input('From:::').lower()
@@ -144,5 +131,5 @@ class Budget:
 app = Budget()
 # app.deposit_funds('food')
 # app.withdraw_funds(category="food", amount=100000)
-# app.compute_balance(category='entertainment')
-app.transfer_balance()
+app.compute_balance()
+# app.transfer_balance()
