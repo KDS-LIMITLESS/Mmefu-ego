@@ -107,146 +107,42 @@ class Budget:
         else:
             print(f"Budget for {category} not found in database!")
 
-    def transfer_balance(self, category="", to=""):
+    def transfer_balance(self):
+        category = input('From:::').lower()
+        to = input('to:::').lower()
+        transfer_amount = int(input(f"Amount::: {self.naira}"))
+        self.read_file(category)
 
-        with open("FoodPurse.txt") as file:
-            foodFile = json.load(file)
-        with open("clothingPurse.txt") as file:
-            clothingFile = json.load(file)
-        with open("entertainmentPurse.txt") as file:
-            entertainmentFile = json.load(file)
+        print(
+            f"transfer {transfer_amount} from {category} balance to {to}? \n ", \
+                end="1. Yes, Proceed \n 2. Cancel \n"
+            )
 
-        if (category == "food" and to == "clothing"):
-            transfer_amount = int(input(f"Enter Amount \n >>> {self.naira}"))
-            print(
-                f"transfer {transfer_amount} from {category} balance to {to}? \n ", \
-                    end="1. Yes, Proceed \n 2. Cancel \n"
-                )
-            confirm = int(input(">>> "))
-            if confirm == 1:
-                if foodFile[category]['balance'] < transfer_amount:
-                    print(f"Insuficient balance in {category} budget.")
-                    sys.exit()
-                with open("FoodPurse.txt", 'w') as Ffile:
-                    foodFile[category]['balance'] -= transfer_amount
-                    json.dump(foodFile, Ffile, indent=2)
-                with open("clothingPurse.txt", 'w') as Cfile:
-                    clothingFile['clothing']['balance'] += transfer_amount
-                    json.dump(clothingFile, Cfile, indent=2)
-                    print(f"Transfer Successful!")
-            else:
+        confirm = int(input(">>> "))
+        if confirm == 1:
+            if self.Purse[category]['balance'] < transfer_amount:
+                print(f"Insuficient balance in {category} budget.")
                 sys.exit()
+            self.Purse[category]['balance'] -= transfer_amount
+            self.write_to_file(category)
 
-        if (category == "food" and to == "entertainment"):
-            transfer_amount = int(input(f"Enter Amount \n >>> {self.naira}"))
-            print(
-                f"transfer {transfer_amount} from {category} balance to {to}? \n ", \
-                    end="1. Yes, Proceed \n 2. Cancel \n"
-                )
-            confirm = int(input(">>> "))
-            if confirm == 1:
-                if foodFile[category]['balance'] < transfer_amount:
-                    print(f"Insuficient balance in {category} budget.")
-                    sys.exit()
-                with open("FoodPurse.txt", 'w') as Ffile:
-                    foodFile[category]['balance'] -= transfer_amount
-                    json.dump(foodFile, Ffile, indent=2)
-                    print(f"Transfer Successful! Your new balance is {self.naira}" + foodFile[category]['balance'])
-                with open("entertainmentPurse.txt", 'w') as Efile:
-                    entertainmentFile['entertainment']['balance'] += transfer_amount
-                    json.dump(entertainmentFile, Efile, indent=2)
-                    print(f"Transfer Successful!")
-            else:
-                sys.exit()
+            self.read_file(to)
+            self.Purse[to]['balance'] += transfer_amount
+            self.write_to_file(to)
+            print("Transfer Successful!")
 
-        if (category == "clothing" and to == "food"):
-            transfer_amount = int(input(f"Enter Amount \n >>> {self.naira}"))
-            print(
-                f"transfer {transfer_amount} from {category} balance to {to}? \n ", \
-                    end="1. Yes, Proceed \n 2. Cancel \n"
-                )
-            confirm = int(input(">>> "))
-            if confirm == 1:
-                if clothingFile[category]['balance'] < transfer_amount:
-                    print(f"Insuficient balance in {category} budget.")
-                    sys.exit()
-                with open("clothingPurse.txt", 'w') as Cfile:
-                    clothingFile[category]['balance'] -= transfer_amount
-                    json.dump(clothingFile, Cfile, indent=2)
-                with open("FoodPurse.txt", 'w') as Ffile:
-                    foodFile['food']['balance'] += transfer_amount
-                    json.dump(foodFile, Ffile, indent=2)
-                    print(f"Transfer Successful!")
-            else:
-                sys.exit()
+        elif confirm == 2:
+            print('Have a nice day!')
+            sys.exit()
+        else:
+            print('Invalid response')
+            self.transfer_balance(category=category, to=to)
 
-        if (category == "clothing" and to == "entertainment"):
-            transfer_amount = int(input(f"Enter Amount \n >>> {self.naira}"))
-            print(
-                f"transfer {transfer_amount} from {category} balance to {to}? \n ", \
-                    end="1. Yes, Proceed \n 2. Cancel \n"
-                )
-            confirm = int(input(">>> "))
-            if confirm == 1:
-                if clothingFile[category]['balance'] < transfer_amount:
-                    print(f"Insuficient balance in {category} budget.")
-                    sys.exit()
-                with open("clothingPurse.txt", 'w') as Cfile:
-                    clothingFile[category]['balance'] -= transfer_amount
-                    json.dump(clothingFile, Cfile, indent=2)
-                with open("entertainmentPurse.txt", 'w') as Efile:
-                    entertainmentFile['entertainment']['balance'] += transfer_amount
-                    json.dump(entertainmentFile, Efile, indent=2)
-                    print(f"Transfer Successful!")
-            else:
-                sys.exit()
-        if (category == "entertainment" and to == "food"):
-            transfer_amount = int(input(f"Enter Amount \n >>> {self.naira}"))
-            print(
-                f"transfer {transfer_amount} from {category} balance to {to}? \n ", \
-                    end="1. Yes, Proceed \n 2. Cancel \n"
-                )
-            confirm = int(input(">>> "))
-            if confirm == 1:
-                if entertainmentFile[category]['balance'] < transfer_amount:
-                    print(f"Insuficient balance in {category} budget.")
-                    sys.exit()
-                with open("entertainmentPurse.txt", 'w') as Efile:
-                    entertainmentFile[category]['balance'] -= transfer_amount
-                    json.dump(entertainmentFile, Efile, indent=2)
-                with open("FoodPurse.txt", 'w') as Ffile:
-                    foodFile['food']['balance'] += transfer_amount
-                    json.dump(foodFile, Ffile, indent=2)
-                    print(f"Transfer Successful!")
-            else:
-                sys.exit()
-
-        if (category == "entertainment" and to == "clothing"):
-            transfer_amount = int(input(f"Enter Amount \n >>> {self.naira}"))
-            print(
-                f"transfer {transfer_amount} from {category} balance to {to}? \n ", \
-                    end="1. Yes, Proceed \n 2. Cancel \n"
-                )
-            confirm = int(input(">>> "))
-            if confirm == 1:
-                if entertainmentFile[category]['balance'] < transfer_amount:
-                    print(f"Insuficient balance in {category} budget.")
-                    sys.exit()
-                with open("entertainmentPurse.txt", 'w') as Efile:
-                    entertainmentFile[category]['balance'] -= transfer_amount
-                    json.dump(entertainmentFile, Efile, indent=2)
-                with open("clothingPurse.txt", 'w') as Cfile:
-                    clothingFile['clothing']['balance'] += transfer_amount
-                    json.dump(clothingFile, Cfile, indent=2)
-                    print('Transfer Successful!')
-            else:
-                sys.exit()
 
 # Budget app for ***clothing***, ***food***, ***entertainment***
 
-
 app = Budget()
-app.deposit_funds('food')
-#app.withdraw_funds(category="food", amount=100000)
+# app.deposit_funds('food')
+# app.withdraw_funds(category="food", amount=100000)
 # app.compute_balance(category='entertainment')
-# app.transfer_balance(category="clothing", to="food")
+app.transfer_balance()
