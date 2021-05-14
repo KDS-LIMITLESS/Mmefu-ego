@@ -33,8 +33,10 @@ class Budget:
             with open('entertainmentPurse.txt', 'w') as file:
                 json.dump(self.Purse, file, indent=2)
 
-    def deposit_funds(self, category=""):
-        last_deposit_amount = int(input(f"\n \n How much do you want to assign for {category} \n >>> {self.naira}"))
+    def deposit_funds(self):
+        print()
+        category = input('Deposit funds to::: ').lower()
+        last_deposit_amount = int(input(f"How much do you want to assign to {category} \n ::: {self.naira}"))
         self.db[category] = {'last_deposit_amount': last_deposit_amount, 'balance': 0}
 
         try:
@@ -64,11 +66,13 @@ class Budget:
                     end=f'Your {category} budget balance is {self.naira}' + str(self.Purse[category]['balance'])
                 )
 
-    def withdraw_funds(self, category="", amount=0):
+    def withdraw_funds(self):
         print()
-        print(f'\n Withdraw {self.naira}{amount} from {category} balance?')
+        category = input('Withdraw funds from::: ').lower()
+        amount = int(input('Enter Amount::: '))
+        print(f'Withdraw {self.naira}{amount} from {category} balance?')
         print("1. Yes, Continue \n", end='2. Cancel \n')
-        confirm = int(input('>>> '))
+        confirm = int(input('::: '))
 
         if confirm == 1:
             self.read_file(category)
@@ -87,6 +91,7 @@ class Budget:
             self.withdraw_funds(category=category, amount=amount)
 
     def compute_balance(self):
+        print()
         category = input('Compute balance for ::: ').lower()
         try:
             self.read_file(category)
@@ -95,6 +100,7 @@ class Budget:
             print(f'Budget balance for {category} not found')
 
     def transfer_balance(self):
+        print()
         category = input('From:::').lower()
         to = input('to:::').lower()
         transfer_amount = int(input(f"Amount::: {self.naira}"))
@@ -129,7 +135,7 @@ class Budget:
 # Budget app for ***clothing***, ***food***, ***entertainment***
 
 app = Budget()
-# app.deposit_funds('food')
-# app.withdraw_funds(category="food", amount=100000)
-app.compute_balance()
+# app.deposit_funds()
+# app.withdraw_funds()
+# app.compute_balance()
 # app.transfer_balance()
