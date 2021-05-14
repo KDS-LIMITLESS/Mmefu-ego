@@ -44,7 +44,7 @@ class Budget:
 
         try:
             self.read_file(category)
-          
+
         except (json.decoder.JSONDecodeError, FileNotFoundError, KeyError):
             self.Purse = {}
             self.Purse[category] = {'last_deposit_amount': last_deposit_amount, 'balance': 0}
@@ -136,7 +136,7 @@ class Budget:
             sys.exit()
         else:
             print('Invalid response')
-            self.transfer_balance(category=category, to=to)
+            self.transfer_balance()
 
 
 # Budget app for ***clothing***, ***food***, ***entertainment***
